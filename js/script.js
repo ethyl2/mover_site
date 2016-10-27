@@ -6,25 +6,21 @@ function loadData() {
     var $nytHeaderElem = $('#nytimes-header');
     var $nytElem = $('#nytimes-articles');
     var $greeting = $('#greeting');
+    var $bgImg = $('.bgimg');
 
     // clear out old data before new request
+    $bgImg.remove();
     $wikiElem.text("");
     $nytElem.text("");
 
     // load streetview
-
-    // YOUR CODE GOES HERE!
     var street = $('#street').val();
     var city = $('#city').val();
-
-    console.log(street, city);
+    var location = street + ", " + city;
+    $greeting.text("So, you want to live at " + location + "?");
     var streetviewUrl = "http://maps.googleapis.com/maps/api/streetview?size=600x300&location=";
-    //streetviewUrl += street +", ";
-    //streetviewUrl += city;
-    streetviewUrl += encodeURIComponent(street + "," + city);
-    console.log(streetviewUrl);
-    var imgString = '<img class="bgimg" alt="Google street view of location" src=' + streetviewUrl + '>';
-
+    streetviewUrl += encodeURIComponent(location);
+    var imgString = '<img class="bgimg" alt="Google street view of ' + location + '" src=' + streetviewUrl + '>';
     $body.prepend(imgString);
 
     return false;
