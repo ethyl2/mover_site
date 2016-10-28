@@ -111,7 +111,6 @@ function loadData() {
           var stateName = nameState(afterComma);
     // 3. Combine the city name with the full state name.
           city = beforeComma + ' ' + stateName;
-          console.log(city);
       }
     }
 
@@ -149,7 +148,9 @@ function loadData() {
 
         $nytElem.append($articleLi);
       }
-    })
+    }).fail(function() {
+    $nytHeaderElem.text("New York Times Articles Could Not Be Loaded");
+    });
 
     return false;
 };
