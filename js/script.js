@@ -2,6 +2,7 @@
 function loadData() {
 
     var $body = $('body');
+    var $wikiHeader = $('#wikipedia-header');
     var $wikiElem = $('#wikipedia-links');
     var $nytHeaderElem = $('#nytimes-header');
     var $nytElem = $('#nytimes-articles');
@@ -150,6 +151,27 @@ function loadData() {
       }
     }).fail(function() {
     $nytHeaderElem.text("New York Times Articles Could Not Be Loaded");
+    });
+
+    //load wikipedia links
+    // 3. Combine the city name with the full state name.
+    var wikiCity = beforeComma + '_' + stateName;
+    console.log(wikiCity);
+    var wikiUrl = "http://en.wikipedia.org/w/api.php?action=parse&format=json&prop=text&section=0&page=" + wikiCity + "&callback=?";
+    $.ajax({
+    url: wikiUrl,
+    method: 'GET',
+    dataType: 'jsonp',
+    success: function(jsondata) {
+      console.log(jsondata);
+      //var markup = jsondata.parse.text["*"];
+      //var blurb = $('<div></div>').html(markup);
+      //var article = $('#article').html($(blurb).find('p'));
+      //$wikiElem.append(article);
+
+    }
+    }).fail(function(err) {
+    $wikiHeader.text("Wikipedia Links Could Not be Loaded");
     });
 
     return false;
