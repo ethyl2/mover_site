@@ -156,6 +156,10 @@ function loadData() {
     //load wikipedia links
     var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' + city + '&format=json&formatversion=2&callback=wikiCallback';
 
+    var wikiRequestTimeout = setTimeout(function() {
+      $wikiHeader.text("Wikipedia Links Could Not be Loaded");
+    }, 8000);
+
     $.ajax({
       url: wikiUrl,
       method: 'GET',
@@ -166,9 +170,8 @@ function loadData() {
         for (var i = 0; i < articleList.length; i++) {
           $wikiElem.append("<li><a href='http://en.wikipedia.org/wiki/" + articleList[i] + "' target='_new'>" + articleList[i] + "</a></li>");
         }
+        clearTimeout(wikiRequestTimeout);
     }
-    }).fail(function(err) {
-    $wikiHeader.text("Wikipedia Links Could Not be Loaded");
     });
 
     return false;
