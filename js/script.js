@@ -24,7 +24,7 @@ function loadData() {
     var city = $('#city').val();
     var location = street + ", " + city.capitalize();
     $greeting.text("So, you want to live at " + location + "?");
-    var streetviewUrl = "http://maps.googleapis.com/maps/api/streetview?size=600x300&location=";
+    var streetviewUrl = "https://maps.googleapis.com/maps/api/streetview?size=600x300&location=";
     streetviewUrl += encodeURIComponent(location);
     var imgString = '<img class="bgimg" alt="Google street view of ' + location + '" src=' + streetviewUrl + '>';
     $body.prepend(imgString);
@@ -153,8 +153,8 @@ function loadData() {
     $nytHeaderElem.text("New York Times Articles Could Not Be Loaded");
     });
 
-    //load wikipedia links
-    var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' + city + '&format=json&formatversion=2&prop=section=0&callback=wikiCallback';
+    //load wikipedia links and first paragraphs
+    var wikiUrl = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + city + '&format=json&formatversion=2&prop=section=0&callback=wikiCallback';
 
     var wikiRequestTimeout = setTimeout(function() {
       $wikiHeader.text("Wikipedia Links Could Not be Loaded");
@@ -165,11 +165,10 @@ function loadData() {
       method: 'GET',
       dataType: 'jsonp',
     }).done(function(jsondata) {
-      console.log(jsondata);
       var articleList = jsondata[1];
       var firstParagraphs = jsondata[2];
       for (var i = 0; i < articleList.length; i++) {
-        $wikiElem.append("<li><a href='http://en.wikipedia.org/wiki/" + articleList[i] + "' target='_new'>" + articleList[i] + "</a><p>" + firstParagraphs[i] + "</p></li>");
+        $wikiElem.append("<li><a href='https://en.wikipedia.org/wiki/" + articleList[i] + "' target='_new'>" + articleList[i] + "</a><p>" + firstParagraphs[i] + "</p></li>");
       }
       clearTimeout(wikiRequestTimeout);
     });
