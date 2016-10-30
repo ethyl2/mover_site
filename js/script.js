@@ -106,11 +106,11 @@ function loadData() {
     if (city.indexOf(',') > -1) {
       var afterComma = city.substr(city.indexOf(",") + 1).replace(/\s+/g, '');
       var beforeComma = city.substr(0, city.indexOf(',') + 1);
-    // 2. If the resulting string has 2 characters, assume it is a state
-    // abbreviation and convert it to a full state name.
+      // 2. If the resulting string has 2 characters, assume it is a state
+      // abbreviation and convert it to a full state name.
       if (afterComma.length == 2) {
           var stateName = nameState(afterComma);
-    // 3. Combine the city name with the full state name.
+          // 3. Combine the city name with the full state name.
           city = beforeComma + ' ' + stateName;
       }
     }
@@ -154,21 +154,18 @@ function loadData() {
     });
 
     //load wikipedia links
-    // 3. Combine the city name with the full state name.
-    var wikiCity = beforeComma + '_' + stateName;
-    console.log(wikiCity);
-    var wikiUrl = "http://en.wikipedia.org/w/api.php?action=parse&format=json&prop=text&section=0&page=" + wikiCity + "&callback=?";
-    $.ajax({
-    url: wikiUrl,
-    method: 'GET',
-    dataType: 'jsonp',
-    success: function(jsondata) {
-      console.log(jsondata);
-      //var markup = jsondata.parse.text["*"];
-      //var blurb = $('<div></div>').html(markup);
-      //var article = $('#article').html($(blurb).find('p'));
-      //$wikiElem.append(article);
+    var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' + city + '&format=json&formatversion=2&callback=wikiCallback';
 
+    $.ajax({
+      url: wikiUrl,
+      method: 'GET',
+      dataType: 'jsonp',
+      success: function(jsondata) {
+        console.log(jsondata);
+        var articleList = jsondata[1];
+        for (var i = 0; i < articleList.length; i++) {
+          $wikiElem.append("<li><a href='http://en.wikipedia.org/wiki/" + articleList[i] + "' target='_new'>" + articleList[i] + "</a></li>");
+        }
     }
     }).fail(function(err) {
     $wikiHeader.text("Wikipedia Links Could Not be Loaded");
