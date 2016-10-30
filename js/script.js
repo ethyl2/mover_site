@@ -164,14 +164,13 @@ function loadData() {
       url: wikiUrl,
       method: 'GET',
       dataType: 'jsonp',
-      success: function(jsondata) {
-        console.log(jsondata);
-        var articleList = jsondata[1];
-        for (var i = 0; i < articleList.length; i++) {
-          $wikiElem.append("<li><a href='http://en.wikipedia.org/wiki/" + articleList[i] + "' target='_new'>" + articleList[i] + "</a></li>");
-        }
-        clearTimeout(wikiRequestTimeout);
-    }
+    }).done(function(jsondata) {
+      console.log(jsondata);
+      var articleList = jsondata[1];
+      for (var i = 0; i < articleList.length; i++) {
+        $wikiElem.append("<li><a href='http://en.wikipedia.org/wiki/" + articleList[i] + "' target='_new'>" + articleList[i] + "</a></li>");
+      }
+      clearTimeout(wikiRequestTimeout);
     });
 
     return false;
