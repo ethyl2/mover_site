@@ -174,7 +174,8 @@ function loadData() {
     });
 
     /* Generate the custom Google Map for the website.
-    See the documentation below for more details.
+    This code is modified from an earlier Udacity resume project.
+    See the documentation below for more details about Google Maps.
     https://developers.google.com/maps/documentation/javascript/reference
     */
 
@@ -184,7 +185,6 @@ function loadData() {
 
       var mapOptions = {
         disableDefaultUI: true,
-        scaleControl: true,
       };
 
       map = new google.maps.Map(document.getElementById('map'), mapOptions);
@@ -241,32 +241,34 @@ function loadData() {
       }
 
       /*
-      pinPoster(location) takes city and fires off a Google place search
+      pinPosterMult(locationArray) takes the array and fires off a Google place search
+      for each location.
       */
-      function pinPoster(city) {
+
+      function pinPosterMult(locationArray) {
 
         // creates a Google place search service object. PlacesService does the work of
         // actually searching for location data.
         var service = new google.maps.places.PlacesService(map);
 
-          // Creates a search object for the city:
-
+        // Iterates through the array of locations, creates a search object for each location
+        locationArray.forEach(function(place){
           // the search request object
           var request = {
-            query: city
+            query: place
           };
 
           // Actually searches the Google Maps API for location data and runs the callback
           // function with the search results after each search.
           service.textSearch(request, callback);
-        };
+        });
+      }
 
       // Sets the boundaries of the map based on pin locations
       window.mapBounds = new google.maps.LatLngBounds();
 
-      // pinPoster(location) creates a pin on the map for the location
-      pinPoster(location);
-      //for just the city instead of the address, use city as the parameter
+      //pinPosterMult creates a pin on the map for each location in the array.
+      pinPosterMult([location, city]);
     }
 
     initializeMap();
