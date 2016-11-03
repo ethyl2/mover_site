@@ -25,7 +25,7 @@ function loadData() {
     var location = street + ", " + city.capitalize();
     $greeting.text("So, you want to live at " + location + "?");
     var streetviewUrl = "https://maps.googleapis.com/maps/api/streetview?size=600x300&location=";
-    streetviewUrl += encodeURIComponent(location);
+    streetviewUrl += encodeURIComponent(location) + "&key=AIzaSyDer25wC1XKKoMHDOnppMpjYnzeu52GpQY";
     var imgString = '<img class="bgimg" alt="Google street view of ' + location + '" src=' + streetviewUrl + '>';
     $body.prepend(imgString);
 
